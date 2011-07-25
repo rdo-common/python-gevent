@@ -7,7 +7,7 @@
 %global upstream_name gevent
 
 Name:           python-%{upstream_name}
-Version:        0.13.3
+Version:        0.13.6
 Release:        1%{?dist}
 Summary:        A coroutine-based Python networking library
 
@@ -56,6 +56,9 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{upstream_name}-%{version}-*.egg-info
 
 %changelog
+* Sun Jul 24 2011 Silas Sewell <silas@sewell.org> - 0.13.6-1
+- Update to 0.13.6
+
 * Wed Feb 16 2011 Silas Sewell <silas@sewell.ch> - 0.13.3-1
 - Update to 0.13.3
 
