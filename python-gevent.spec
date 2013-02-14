@@ -8,7 +8,7 @@
 
 Name:           python-%{upstream_name}
 Version:        0.13.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A coroutine-based Python networking library
 
 Group:          Development/Languages
@@ -56,6 +56,9 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{upstream_name}-%{version}-*.egg-info
 
 %changelog
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.13.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Thu Dec 27 2012 Silas Sewell <silas@sewell.org> - 0.13.8-1
 - Update to 0.13.8
 
