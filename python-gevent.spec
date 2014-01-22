@@ -7,8 +7,8 @@
 %global upstream_name gevent
 
 Name:           python-%{upstream_name}
-Version:        0.13.8
-Release:        3%{?dist}
+Version:        1.0
+Release:        1%{?dist}
 Summary:        A coroutine-based Python networking library
 
 Group:          Development/Languages
@@ -17,8 +17,9 @@ URL:            http://www.gevent.org/
 Source0:        http://pypi.python.org/packages/source/g/gevent/gevent-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  python-devel
-BuildRequires:  libevent-devel >= 1.4.0
+BuildRequires:  python2-devel
+BuildRequires:  c-ares-devel
+BuildRequires:  libev-devel
 Requires:       python-greenlet
 
 %description
@@ -36,9 +37,11 @@ Features include:
 
 %prep
 %setup -q -n %{upstream_name}-%{version}
+# Remove bundled libraries
+rm -r c-ares libev
 
 %build
-CFLAGS="%{optflags}" %{__python} setup.py build
+CFLAGS="%{optflags} -I%{_includedir}/libev" %{__python} setup.py build
 
 %install
 rm -rf %{buildroot}
@@ -56,6 +59,9 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{upstream_name}-%{version}-*.egg-info
 
 %changelog
+* Wed Jan 22 2014 Orion Poplawski <orion@cora.nwra.com> - 1.0-1
+- Update to 1.0
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.13.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
