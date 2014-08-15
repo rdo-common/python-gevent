@@ -1,8 +1,6 @@
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python2_sitearch: %global python_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%global _use_internal_dependency_generator 0
-%global __find_provides    %{_rpmconfigdir}/find-provides | grep -v core.so
-%global __find_requires    %{_rpmconfigdir}/find-requires | grep -v core.so
+%global __provides_exclude_from ^%{python2_sitearch}/.*\\.so$
 
 %global upstream_name gevent
 
@@ -15,7 +13,6 @@ Group:          Development/Languages
 License:        MIT
 URL:            http://www.gevent.org/
 Source0:        http://pypi.python.org/packages/source/g/gevent/gevent-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  python2-devel
 BuildRequires:  c-ares-devel
@@ -41,22 +38,17 @@ Features include:
 rm -r c-ares libev
 
 %build
-CFLAGS="%{optflags} -I%{_includedir}/libev" %{__python} setup.py build
+CFLAGS="%{optflags} -I%{_includedir}/libev" %{__python2} setup.py build
 
 %install
-rm -rf %{buildroot}
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 # Fix non-standard-executable-perm error
-%{__chmod} 0755 %{buildroot}%{python_sitearch}/%{upstream_name}/core.so
-
-%clean
-rm -rf %{buildroot}
+%{__chmod} 0755 %{buildroot}%{python2_sitearch}/%{upstream_name}/core.so
 
 %files
-%defattr(-,root,root,-)
 %doc LICENSE README.rst
-%{python_sitearch}/%{upstream_name}
-%{python_sitearch}/%{upstream_name}-%{version}-*.egg-info
+%{python2_sitearch}/%{upstream_name}
+%{python2_sitearch}/%{upstream_name}-%{version}-*.egg-info
 
 %changelog
 * Fri Aug 15 2014 Orion Poplawski <orion@cora.nwra.com> - 1.0.1-1
