@@ -6,7 +6,7 @@
 
 Name:           python-%{upstream_name}
 Version:        1.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A coroutine-based Python networking library
 
 Group:          Development/Languages
@@ -51,6 +51,9 @@ CFLAGS="%{optflags} -I%{_includedir}/libev" %{__python2} setup.py build
 %{python2_sitearch}/%{upstream_name}-%{version}-*.egg-info
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
