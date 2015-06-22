@@ -5,8 +5,8 @@
 %global upstream_name gevent
 
 Name:           python-%{upstream_name}
-Version:        1.0.1
-Release:        3%{?dist}
+Version:        1.0.2
+Release:        1%{?dist}
 Summary:        A coroutine-based Python networking library
 
 Group:          Development/Languages
@@ -51,6 +51,10 @@ CFLAGS="%{optflags} -I%{_includedir}/libev" %{__python2} setup.py build
 %{python2_sitearch}/%{upstream_name}-%{version}-*.egg-info
 
 %changelog
+* Mon Jun 22 2015 Dan Callaghan <dcallagh@redhat.com> - 1.0.2-1
+- bug fix release 1.0.2:
+  https://github.com/gevent/gevent/blob/v1.0.2/changelog.rst#release-102-may-23-2015
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
