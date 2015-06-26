@@ -6,13 +6,18 @@
 
 Name:           python-%{upstream_name}
 Version:        1.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A coroutine-based Python networking library
 
 Group:          Development/Languages
 License:        MIT
 URL:            http://www.gevent.org/
 Source0:        http://pypi.python.org/packages/source/g/gevent/gevent-%{version}.tar.gz
+
+# gevent requires greenlet >= 0.4.7 but we have 0.4.5 in Fedora.
+# The version requirement is only related to Python 2.5 support
+# so we are fine with any version.
+Patch2:         0002-remove-version-requirement-for-greenlet.patch
 
 BuildRequires:  python2-devel
 BuildRequires:  c-ares-devel
@@ -36,6 +41,7 @@ Features include:
 %setup -q -n %{upstream_name}-%{version}
 # Remove bundled libraries
 rm -r c-ares libev
+%patch2 -p1
 
 %build
 CFLAGS="%{optflags} -I%{_includedir}/libev" %{__python2} setup.py build
@@ -51,6 +57,9 @@ CFLAGS="%{optflags} -I%{_includedir}/libev" %{__python2} setup.py build
 %{python2_sitearch}/%{upstream_name}-%{version}-*.egg-info
 
 %changelog
+* Fri Jun 26 2015 Dan Callaghan <dcallagh@redhat.com> - 1.0.2-2
+- removed version requirement for greenlet
+
 * Mon Jun 22 2015 Dan Callaghan <dcallagh@redhat.com> - 1.0.2-1
 - bug fix release 1.0.2:
   https://github.com/gevent/gevent/blob/v1.0.2/changelog.rst#release-102-may-23-2015
