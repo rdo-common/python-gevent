@@ -5,7 +5,7 @@
 
 Name:          python-%{modname}
 Version:       1.1
-Release:       0.1.b5%{?dist}
+Release:       0.2.b5%{?dist}
 Summary:       A coroutine-based Python networking library
 
 License:       MIT
@@ -52,20 +52,13 @@ Requires:      python3-greenlet
 # Remove bundled libraries
 rm -rf c-ares libev
 
-rm -rf %{py3dir}
-cp -a . %{py3dir}
-
 %build
 %py2_build
-pushd %{py3dir}
-  %py3_build
-popd
+%py3_build
 
 %install
 %py2_install
-pushd %{py3dir}
-  %py3_install
-popd
+%py3_install
 rm -f %{buildroot}%{python2_sitearch}/%{modname}/_*3.py
 rm -f %{buildroot}%{python3_sitearch}/%{modname}/_*2.py
 find %{buildroot} -name '.buildinfo' -delete
@@ -83,6 +76,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Tue Oct 06 2015 Orion Poplawski <orion@cora.nwra.com> - 1.1-0.2.b5
+- Drop use of unneeded %%{py3dir}
+
 * Mon Oct 05 2015 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.1-0.1.b5
 - Update to 1.1b5 (RHBZ #1244452)
 - Add python3 support
