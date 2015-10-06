@@ -1,28 +1,20 @@
-%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%global __provides_exclude_from ^%{python2_sitearch}/.*\\.so$ ^%{python3_sitearch}/.*\\.so$
+%global realver 1.1b5
+%global modname gevent
+%global optflags %(echo %{optflags} -I%{_includedir}/libev)
 
-%global __provides_exclude_from ^%{python2_sitearch}/.*\\.so$
+Name:          python-%{modname}
+Version:       1.1
+Release:       0.1.b5%{?dist}
+Summary:       A coroutine-based Python networking library
 
-%global upstream_name gevent
+License:       MIT
+URL:           http://www.gevent.org/
+#Source0:       http://pypi.python.org/packages/source/g/%{modname}/%{modname}-%{version}.tar.gz
+Source0:       http://pypi.python.org/packages/source/g/%{modname}/%{modname}-%{realver}.tar.gz
 
-Name:           python-%{upstream_name}
-Version:        1.0.2
-Release:        2%{?dist}
-Summary:        A coroutine-based Python networking library
-
-Group:          Development/Languages
-License:        MIT
-URL:            http://www.gevent.org/
-Source0:        http://pypi.python.org/packages/source/g/gevent/gevent-%{version}.tar.gz
-
-# gevent requires greenlet >= 0.4.7 but we have 0.4.5 in Fedora.
-# The version requirement is only related to Python 2.5 support
-# so we are fine with any version.
-Patch2:         0002-remove-version-requirement-for-greenlet.patch
-
-BuildRequires:  python2-devel
-BuildRequires:  c-ares-devel
-BuildRequires:  libev-devel
-Requires:       python-greenlet
+BuildRequires: c-ares-devel
+BuildRequires: libev-devel
 
 %description
 gevent is a coroutine-based Python networking library that uses greenlet to
@@ -37,26 +29,65 @@ Features include:
   * DNS requests done through libevent-dns
   * monkey patching utility to get pure Python modules to cooperate
 
+%package -n python2-%{modname}
+Summary:       %{summary}
+%{?python_provide:%python_provide python2-%{modname}}
+BuildRequires: python2-devel
+Requires:      python-greenlet
+
+%description -n python2-%{modname}
+%{description}
+
+%package -n python3-%{modname}
+Summary:       %{summary}
+%{?python_provide:%python_provide python3-%{modname}}
+BuildRequires: python3-devel
+Requires:      python3-greenlet
+
+%description -n python3-%{modname}
+%{description}
+
 %prep
-%setup -q -n %{upstream_name}-%{version}
+%autosetup -n %{modname}-%{realver}
 # Remove bundled libraries
-rm -r c-ares libev
-%patch2 -p1
+rm -rf c-ares libev
+
+rm -rf %{py3dir}
+cp -a . %{py3dir}
 
 %build
-CFLAGS="%{optflags} -I%{_includedir}/libev" %{__python2} setup.py build
+%py2_build
+pushd %{py3dir}
+  %py3_build
+popd
 
 %install
-%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
-# Fix non-standard-executable-perm error
-%{__chmod} 0755 %{buildroot}%{python2_sitearch}/%{upstream_name}/core.so
+%py2_install
+pushd %{py3dir}
+  %py3_install
+popd
+rm -f %{buildroot}%{python2_sitearch}/%{modname}/_*3.py
+rm -f %{buildroot}%{python3_sitearch}/%{modname}/_*2.py
+find %{buildroot} -name '.buildinfo' -delete
+# Correct the permissions.
+find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 
-%files
-%doc LICENSE README.rst
-%{python2_sitearch}/%{upstream_name}
-%{python2_sitearch}/%{upstream_name}-%{version}-*.egg-info
+%files -n python2-%{modname}
+%license LICENSE
+%doc README.rst
+%{python2_sitearch}/%{modname}*
+
+%files -n python3-%{modname}
+%license LICENSE
+%doc README.rst
+%{python3_sitearch}/%{modname}*
 
 %changelog
+* Mon Oct 05 2015 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.1-0.1.b5
+- Update to 1.1b5 (RHBZ #1244452)
+- Add python3 support
+- Follow modern RPM packaging guidelines
+
 * Fri Jun 26 2015 Dan Callaghan <dcallagh@redhat.com> - 1.0.2-2
 - removed version requirement for greenlet
 
