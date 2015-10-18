@@ -1,11 +1,11 @@
 %global __provides_exclude_from ^%{python2_sitearch}/.*\\.so$ ^%{python3_sitearch}/.*\\.so$
-%global realver 1.1b5
+%global realver 1.1b6
 %global modname gevent
 %global optflags %(echo %{optflags} -I%{_includedir}/libev)
 
 Name:          python-%{modname}
 Version:       1.1
-Release:       0.2.b5%{?dist}
+Release:       0.3.b6%{?dist}
 Summary:       A coroutine-based Python networking library
 
 License:       MIT
@@ -76,6 +76,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Sun Oct 18 2015 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.1-0.3.b6
+- Update to 1.1b6 (RHBZ #1272717)
+
 * Tue Oct 06 2015 Orion Poplawski <orion@cora.nwra.com> - 1.1-0.2.b5
 - Drop use of unneeded %%{py3dir}
 
