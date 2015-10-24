@@ -5,7 +5,7 @@
 
 Name:          python-%{modname}
 Version:       1.1
-Release:       0.3.b6%{?dist}
+Release:       0.4.b6%{?dist}
 Summary:       A coroutine-based Python networking library
 
 License:       MIT
@@ -36,7 +36,17 @@ BuildRequires: python2-devel
 Requires:      python-greenlet
 
 %description -n python2-%{modname}
-%{description}
+gevent is a coroutine-based Python networking library that uses greenlet to
+provide a high-level synchronous API on top of libevent event loop.
+
+Features include:
+
+  * convenient API around greenlets
+  * familiar synchronization primitives (gevent.event, gevent.queue)
+  * socket module that cooperates
+  * WSGI server on top of libevent-http
+  * DNS requests done through libevent-dns
+  * monkey patching utility to get pure Python modules to cooperate
 
 %package -n python3-%{modname}
 Summary:       %{summary}
@@ -45,7 +55,17 @@ BuildRequires: python3-devel
 Requires:      python3-greenlet
 
 %description -n python3-%{modname}
-%{description}
+gevent is a coroutine-based Python networking library that uses greenlet to
+provide a high-level synchronous API on top of libevent event loop.
+
+Features include:
+
+  * convenient API around greenlets
+  * familiar synchronization primitives (gevent.event, gevent.queue)
+  * socket module that cooperates
+  * WSGI server on top of libevent-http
+  * DNS requests done through libevent-dns
+  * monkey patching utility to get pure Python modules to cooperate
 
 %prep
 %autosetup -n %{modname}-%{realver}
@@ -76,6 +96,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Sat Oct 24 2015 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.1-0.4.b6
+- Fix description in spec
+
 * Sun Oct 18 2015 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.1-0.3.b6
 - Update to 1.1b6 (RHBZ #1272717)
 
