@@ -5,7 +5,7 @@
 
 Name:          python-%{modname}
 Version:       1.1
-Release:       0.4.b6%{?dist}
+Release:       0.5.b6%{?dist}
 Summary:       A coroutine-based Python networking library
 
 License:       MIT
@@ -96,6 +96,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1-0.5.b6
+- Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
+
 * Sat Oct 24 2015 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.1-0.4.b6
 - Fix description in spec
 
