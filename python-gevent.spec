@@ -1,16 +1,15 @@
 %global __provides_exclude_from ^%{python2_sitearch}/.*\\.so$ ^%{python3_sitearch}/.*\\.so$
-%global realver 1.1b6
+%global realver 1.1rc3
 %global modname gevent
 %global optflags %(echo %{optflags} -I%{_includedir}/libev)
 
 Name:          python-%{modname}
 Version:       1.1
-Release:       0.5.b6%{?dist}
+Release:       0.6.rc3%{?dist}
 Summary:       A coroutine-based Python networking library
 
 License:       MIT
 URL:           http://www.gevent.org/
-#Source0:       http://pypi.python.org/packages/source/g/%{modname}/%{modname}-%{version}.tar.gz
 Source0:       http://pypi.python.org/packages/source/g/%{modname}/%{modname}-%{realver}.tar.gz
 
 BuildRequires: c-ares-devel
@@ -79,8 +78,9 @@ rm -rf c-ares libev
 %install
 %py2_install
 %py3_install
-rm -f %{buildroot}%{python2_sitearch}/%{modname}/_*3.py
-rm -f %{buildroot}%{python3_sitearch}/%{modname}/_*2.py
+rm %{buildroot}%{python2_sitearch}/%{modname}/_*3.py*
+rm %{buildroot}%{python3_sitearch}/%{modname}/_*2.py
+rm %{buildroot}%{python3_sitearch}/%{modname}/__pycache__/_*2.*
 find %{buildroot} -name '.buildinfo' -delete
 # Correct the permissions.
 find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
@@ -96,6 +96,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Wed Jan 20 2016 Dan Callaghan <dcallagh@redhat.com> - 1.1-0.6.rc3
+- Update to 1.1rc3
+
 * Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1-0.5.b6
 - Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
 
