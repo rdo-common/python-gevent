@@ -1,11 +1,11 @@
 %global __provides_exclude_from ^%{python2_sitearch}/.*\\.so$ ^%{python3_sitearch}/.*\\.so$
-%global realver 1.1rc3
+%global realver 1.1rc4
 %global modname gevent
 %global optflags %(echo %{optflags} -I%{_includedir}/libev)
 
 Name:          python-%{modname}
 Version:       1.1
-Release:       0.7.rc3%{?dist}
+Release:       0.8.rc4%{?dist}
 Summary:       A coroutine-based Python networking library
 
 License:       MIT
@@ -32,7 +32,7 @@ Features include:
 Summary:       %{summary}
 %{?python_provide:%python_provide python2-%{modname}}
 BuildRequires: python2-devel
-Requires:      python-greenlet
+Requires:      python2-greenlet
 
 %description -n python2-%{modname}
 gevent is a coroutine-based Python networking library that uses greenlet to
@@ -46,6 +46,8 @@ Features include:
   * WSGI server on top of libevent-http
   * DNS requests done through libevent-dns
   * monkey patching utility to get pure Python modules to cooperate
+
+Python 2 version.
 
 %package -n python3-%{modname}
 Summary:       %{summary}
@@ -65,6 +67,8 @@ Features include:
   * WSGI server on top of libevent-http
   * DNS requests done through libevent-dns
   * monkey patching utility to get pure Python modules to cooperate
+
+Python 3 version.
 
 %prep
 %autosetup -n %{modname}-%{realver}
@@ -96,6 +100,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Wed Feb 17 2016 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 1.1-0.8.rc4
+- Update to 1.1rc4 (RHBZ #1309141)
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-0.7.rc3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
