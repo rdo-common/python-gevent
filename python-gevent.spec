@@ -1,16 +1,15 @@
 %global __provides_exclude_from ^%{python2_sitearch}/.*\\.so$ ^%{python3_sitearch}/.*\\.so$
-%global realver 1.1rc4
 %global modname gevent
 %global optflags %(echo %{optflags} -I%{_includedir}/libev)
 
 Name:          python-%{modname}
-Version:       1.1
-Release:       0.8.rc4%{?dist}
+Version:       1.1.0
+Release:       1%{?dist}
 Summary:       A coroutine-based Python networking library
 
 License:       MIT
 URL:           http://www.gevent.org/
-Source0:       http://pypi.python.org/packages/source/g/%{modname}/%{modname}-%{realver}.tar.gz
+Source0:       http://pypi.python.org/packages/source/g/%{modname}/%{modname}-%{version}.tar.gz
 
 BuildRequires: c-ares-devel
 BuildRequires: libev-devel
@@ -71,7 +70,7 @@ Features include:
 Python 3 version.
 
 %prep
-%autosetup -n %{modname}-%{realver}
+%autosetup -n %{modname}-%{version}
 # Remove bundled libraries
 rm -rf c-ares libev
 
@@ -100,6 +99,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Tue Mar 15 2016 Dan Callaghan <dcallagh@redhat.com> - 1.1.0-1
+- Update to 1.1.0 final release
+
 * Wed Feb 17 2016 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 1.1-0.8.rc4
 - Update to 1.1rc4 (RHBZ #1309141)
 
