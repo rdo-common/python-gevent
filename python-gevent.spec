@@ -3,7 +3,7 @@
 %global optflags %(echo %{optflags} -I%{_includedir}/libev)
 
 Name:          python-%{modname}
-Version:       1.1.0
+Version:       1.1.1
 Release:       1%{?dist}
 Summary:       A coroutine-based Python networking library
 
@@ -99,6 +99,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Tue Apr 05 2016 Igor Gnatenko <ignatenko@redhat.com> - 1.1.1-1
+- Update to 1.1.1 (RHBZ #1323855)
+
 * Tue Mar 15 2016 Dan Callaghan <dcallagh@redhat.com> - 1.1.0-1
 - Update to 1.1.0 final release
 
