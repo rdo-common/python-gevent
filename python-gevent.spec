@@ -3,13 +3,13 @@
 %global optflags %(echo %{optflags} -I%{_includedir}/libev)
 
 Name:          python-%{modname}
-Version:       1.1.1
-Release:       2%{?dist}
+Version:       1.1.2
+Release:       1%{?dist}
 Summary:       A coroutine-based Python networking library
 
 License:       MIT
 URL:           http://www.gevent.org/
-Source0:       http://pypi.python.org/packages/source/g/%{modname}/%{modname}-%{version}.tar.gz
+Source0:       https://github.com/gevent/gevent/releases/download/v%{version}/%{modname}-%{version}.tar.gz
 
 BuildRequires: c-ares-devel
 BuildRequires: libev-devel
@@ -99,6 +99,9 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Sun Jul 24 2016 Igor Gnatenko <ignatenko@redhat.com> - 1.1.2-1
+- Update to 1.1.2 (RHBZ #1359455)
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.1-2
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
