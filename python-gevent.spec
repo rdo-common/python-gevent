@@ -48,6 +48,7 @@ Features include:
 
 Python 2 version.
 
+%if 0%{?with_python3}
 %package -n python3-%{modname}
 Summary:       %{summary}
 %{?python_provide:%python_provide python3-%{modname}}
@@ -68,6 +69,7 @@ Features include:
   * monkey patching utility to get pure Python modules to cooperate
 
 Python 3 version.
+%endif
 
 %prep
 %autosetup -n %{modname}-%{version}
@@ -76,14 +78,18 @@ rm -rf c-ares libev
 
 %build
 %py2_build
+%if 0%{?with_python3}
 %py3_build
+%endif
 
 %install
 %py2_install
-%py3_install
 rm %{buildroot}%{python2_sitearch}/%{modname}/_*3.py*
+%if 0%{?with_python3}
+%py3_install
 rm %{buildroot}%{python3_sitearch}/%{modname}/_*2.py
 rm %{buildroot}%{python3_sitearch}/%{modname}/__pycache__/_*2.*
+%endif
 find %{buildroot} -name '.buildinfo' -delete
 # Correct the permissions.
 find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
@@ -93,10 +99,12 @@ find %{buildroot} -name '*.so' -exec chmod 755 {} ';'
 %doc README.rst
 %{python2_sitearch}/%{modname}*
 
+%if 0%{?with_python3}
 %files -n python3-%{modname}
 %license LICENSE
 %doc README.rst
 %{python3_sitearch}/%{modname}*
+%endif
 
 %changelog
 * Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 1.1.2-2
